@@ -22,13 +22,14 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Button btnLoad;
+    RvCardAdapter rvCardAdapter = new RvCardAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialComponent();
-
+        generateAdapter();
 
         btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getData(){
         InputStream jsonFile = getResources().openRawResource(R.raw.data_diri);
-        SimpleAsyncTask simpleAsyncTask = new SimpleAsyncTask(getApplicationContext(), recyclerView);
+        //SimpleAsyncTask simpleAsyncTask = new SimpleAsyncTask(getApplicationContext(), recyclerView);
+        SimpleAsyncTask simpleAsyncTask = new SimpleAsyncTask(getApplicationContext(),rvCardAdapter);
         simpleAsyncTask.execute(jsonFile);
 
     }
@@ -49,5 +51,11 @@ public class MainActivity extends AppCompatActivity {
     public void initialComponent(){
         btnLoad = findViewById(R.id.btnLoad);
         recyclerView = findViewById(R.id.rv_cardview);
+    }
+
+    public void generateAdapter(){
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(rvCardAdapter);
     }
 }

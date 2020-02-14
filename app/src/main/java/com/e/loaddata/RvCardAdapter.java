@@ -14,11 +14,20 @@ import java.util.ArrayList;
 public class RvCardAdapter extends RecyclerView.Adapter<RvCardAdapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList<DataDiri> dataDiri;
+    //private ArrayList<DataDiri> dataDiri;
+    private ArrayList<DataDiri> dataDiri = new ArrayList<>();
 
     public RvCardAdapter(Context context, ArrayList<DataDiri> dataDiri){
         this.context = context;
         this.dataDiri = dataDiri;
+    }
+
+    public RvCardAdapter(Context context){
+        this.context = context;
+    }
+
+    public void addData(ArrayList<DataDiri> data){
+        this.dataDiri = data;
     }
 
     @NonNull

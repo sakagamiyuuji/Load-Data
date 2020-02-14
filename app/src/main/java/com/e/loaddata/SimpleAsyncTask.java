@@ -21,11 +21,17 @@ import java.util.ArrayList;
 public class SimpleAsyncTask extends AsyncTask<InputStream, Void, ArrayList<DataDiri>> {
 
     WeakReference<RecyclerView> recyclerViewWeakReference;
+    WeakReference<RvCardAdapter> rvCardAdapterWeakReference;
     Context context;
 
     public SimpleAsyncTask(Context context, RecyclerView recyclerView){
         this.recyclerViewWeakReference = new WeakReference<>(recyclerView);
         this.context = context;
+    }
+
+    public SimpleAsyncTask(Context context, RvCardAdapter rvCardAdapter){
+        this.context = context;
+        this.rvCardAdapterWeakReference = new WeakReference<>(rvCardAdapter);
     }
 
     @Override
@@ -40,9 +46,10 @@ public class SimpleAsyncTask extends AsyncTask<InputStream, Void, ArrayList<Data
 
     @Override
     protected void onPostExecute(ArrayList<DataDiri> data) {
-
-
-        RecyclerView recyclerView = this.recyclerViewWeakReference.get().findViewById(R.id.rv_cardview);
+      RvCardAdapter adapter = rvCardAdapterWeakReference.get();
+      adapter.addData(data);
+      adapter.notifyDataSetChanged();
+        /*RecyclerView recyclerView = this.recyclerViewWeakReference.get().findViewById(R.id.rv_cardview);
 
         try{
             RvCardAdapter rvCardAdapter = new RvCardAdapter(context, data);
@@ -53,7 +60,7 @@ public class SimpleAsyncTask extends AsyncTask<InputStream, Void, ArrayList<Data
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public String loadJsonDataFromRaw(InputStream isParam){
